@@ -1,0 +1,58 @@
+CREATE TABLE public.departments (
+	dept_no VARCHAR(9) NOT NULL,
+	PRIMARY KEY (dept_no),
+	dept_name VARCHAR(255)
+);
+ALTER TABLE public.departments OWNER TO postgres;
+
+CREATE TABLE public.employees (
+	emp_no SERIAL PRIMARY KEY,
+	birth_date timestamp without time zone DEFAULT now() NOT NULL,
+	first_name character varying(45) NOT NULL,
+    	last_name character varying(45) NOT NULL,
+	gender character varying(3) NOT NULL,
+    	hire_date timestamp without time zone DEFAULT now() NOT NULL
+	);
+ALTER TABLE public.employees OWNER TO postgres;
+
+CREATE TABLE public.dept_manager (
+	emp_no INT NOT NULL,
+	dept_no VARCHAR(10) NOT NULL,
+ 	from_date timestamp without time zone DEFAULT now() NOT NULL,
+	to_date timestamp without time zone DEFAULT now() NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
+ALTER TABLE public.dept_manager OWNER TO postgres;
+
+CREATE TABLE public.dept_emp (
+	emp_no INT NOT NULL,
+	dept_no VARCHAR(255) NOT NULL,
+    from_date timestamp without time zone DEFAULT now() NOT NULL,
+	to_date timestamp without time zone DEFAULT now() NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
+ALTER TABLE public.dept_emp OWNER TO postgres;
+
+CREATE TABLE public.titles (
+    emp_no INT NOT NULL,
+	title character varying(20) NOT NULL,
+    from_date timestamp without time zone DEFAULT now() NOT NULL,
+	to_date timestamp without time zone DEFAULT now() NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+
+ALTER TABLE public.titles OWNER TO postgres;
+
+
+
+CREATE TABLE public.salaries (
+   	emp_no INT NOT NULL,
+	salary float NOT NULL,
+    from_date timestamp without time zone DEFAULT now() NOT NULL,
+	to_date timestamp without time zone DEFAULT now() NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+ALTER TABLE public.salaries OWNER TO postgres;
+
